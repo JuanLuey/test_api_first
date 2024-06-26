@@ -32,7 +32,19 @@ public class RestProductControllers {
     @GetMapping("/Products")
     public List<Products> product() {
 
-        return restProductRepository.getSkus();
+        String response_access = "";
+        ResponseEntity responseEntity = null;
+
+        try {
+            response_access = restApiRepository.getKeyToken();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (response_access == "OK") {
+            return restProductRepository.getSkus();
+        }
+        return null;
     }
 
     @GetMapping("/Products/{sku}")
